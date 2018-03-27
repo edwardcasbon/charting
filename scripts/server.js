@@ -12,5 +12,4 @@ app.use(express.static(dir, options));
 
 app.listen(port, () => {
     console.log(`Running on ${domain}, port ${port}`);
-    console.log(dir);
 });
