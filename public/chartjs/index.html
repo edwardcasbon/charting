@@ -12,7 +12,25 @@
 
                 <div class="grid__col grid__col--span-6-of-12">
                     <div class="padded">
-                        <canvas class="chart" data-type="line" data-title="Line chart"></canvas>
+                        <canvas class="chart" data-type="line" data-title="Line chart" data-source="LineChartData"></canvas>
+                        <script>
+                            var LineChartData = {
+                                labels: ["April", "May", "June"],
+                                dataSets: [{
+                                    label: '2013',
+                                    data: [1, 10, 5],
+                                    colour: '204, 0, 0'
+                                }, {
+                                    label: '2014',
+                                    data: [4, 14, 24],
+                                    colour: '60, 133, 223'
+                                }, {
+                                    label: '2015',
+                                    data: [10, 20, 3],
+                                    colour: '26, 172, 30'
+                                }]
+                            };
+                        </script>
                     </div>
                 </div>
 

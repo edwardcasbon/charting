@@ -26,24 +26,30 @@ const charts = document.querySelectorAll('.chart');
 for (let i=0; i<charts.length; i++) {
     const el = charts[i];
     const type = el.getAttribute('data-type');
+    let ChartData = Data;
+
+    if (el.hasAttribute('data-source')) {
+        const ds = el.getAttribute('data-source');
+        ChartData = (typeof window[ds] !== 'undefined') ? window[ds] : (typeof this[ds] !== 'undefined') ? this[ds] : ChartData;
+    }
 
     const data = {
-        labels: Data.labels,
-        datasets: Data.dataSets.map((dataSet, index) => {
+        labels: ChartData.labels,
+        datasets: ChartData.dataSets.map((dataSet, index) => {
             return {
                 label: dataSet.label,
                 data: dataSet.data,
                 borderWidth: 1,
 
                 backgroundColor: (type === 'doughnut' || type === 'pie' || type === 'polarArea') ? 
-                    Data.dataSets.map(ds => {
+                    ChartData.dataSets.map(ds => {
                         return `rgba(${ds.colour}, 0.25)`;
                     }) :
                     
                     `rgba(${dataSet.colour}, 0.25)`,
 
                 borderColor: (type === 'doughnut' || type === 'pie' || type === 'polarArea') ? 
-                    Data.dataSets.map(ds => {
+                    ChartData.dataSets.map(ds => {
                         return `rgb(${ds.colour})`;
                     })
                     : 
