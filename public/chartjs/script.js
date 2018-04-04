@@ -26,6 +26,7 @@ const charts = document.querySelectorAll('.chart');
 for (let i=0; i<charts.length; i++) {
     const el = charts[i];
     const type = el.getAttribute('data-type');
+    const stacked = el.getAttribute('data-stacked');
     let ChartData = Data;
 
     if (el.hasAttribute('data-source')) {
@@ -59,8 +60,22 @@ for (let i=0; i<charts.length; i++) {
         })
     };
 
+    const options = {};
+
+    if (type === 'bar' && stacked === 'true') {
+        options.scales = {
+            xAxes: [{
+                stacked: true
+            }],
+            yAxes: [{
+                stacked: true
+            }]
+        }
+    }
+
     const chart = new Chart(el.getContext('2d'), {
         type,
-        data
+        data,
+        options
     });
 }
