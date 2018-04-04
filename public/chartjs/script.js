@@ -1,23 +1,24 @@
 // Can change global settings.
 Chart.defaults.global.defaultFontFamily = "Roboto";
+Chart.defaults.global.legend.position = 'bottom';
 
 // Data to use in graphs.
 const Data = {
     labels: ["January", "February", "March"],
-    dataSets: [
-        [1, 10, 5],     // 2016
-        [4, 14, 24],    // 2017
-        [10, 20, 3],    // 2018
-    ]
+    dataSets: [{
+        label: '2016',
+        data: [1, 10, 5],
+        colour: '204, 0, 0'
+    }, {
+        label: '2017',
+        data: [4, 14, 24],
+        colour: '60, 133, 223'
+    }, {
+        label: '2018',
+        data: [10, 20, 3],
+        colour: '26, 172, 30'
+    }]
 };
-
-// Colours to use in graphs.
-const colours = [
-    '204, 0, 0',    // Red
-    '60, 133, 223', // Blue
-    '26, 172, 30',  // Green
-    '252, 144, 3',  // Orange
-];
 
 // Get all the charts in the document, loop over them and
 // create the image using the Chart.js library.
@@ -30,39 +31,30 @@ for (let i=0; i<charts.length; i++) {
         labels: Data.labels,
         datasets: Data.dataSets.map((dataSet, index) => {
             return {
-                label: `Dataset ${index}`,
-                data: dataSet,
+                label: dataSet.label,
+                data: dataSet.data,
+                borderWidth: 1,
+
                 backgroundColor: (type === 'doughnut' || type === 'pie' || type === 'polarArea') ? 
-                    colours.map(colour => {
-                        return `rgba(${colour}, 0.25)`;
-                    }) : 
+                    Data.dataSets.map(ds => {
+                        return `rgba(${ds.colour}, 0.25)`;
+                    }) :
                     
-                    `rgba(${colours[index]}, 0.25)`,
+                    `rgba(${dataSet.colour}, 0.25)`,
+
                 borderColor: (type === 'doughnut' || type === 'pie' || type === 'polarArea') ? 
-                    colours.map(colour => {
-                        return `rgb(${colour})`;
+                    Data.dataSets.map(ds => {
+                        return `rgb(${ds.colour})`;
                     })
                     : 
                     
-                    `rgb(${colours[index]})`,
-                borderWidth: 1
+                    `rgb(${dataSet.colour})`
             }
         })
     };
 
     const chart = new Chart(el.getContext('2d'), {
         type,
-        data,
-
-        options: {
-            legend: {
-                position: 'bottom'
-            },
-
-            title: {
-                display: el.hasAttribute('data-title'),
-                text: el.getAttribute('data-title')
-            }
-        }
+        data
     });
 }
